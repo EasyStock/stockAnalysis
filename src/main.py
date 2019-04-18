@@ -34,7 +34,7 @@ def AnalysisOneDay(fileName):
         
         
 if __name__ == '__main__':
-    fileName = u'/Volumes/Data/StockAnalysisData/TTTT/rawData/2019-04-18.xls'
+    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData//2019-04-18.xls'
     AnalysisOneDay(fileName)
 
     
