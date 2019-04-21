@@ -40,18 +40,47 @@ def ReadAndSaveToFile(fileName):
     
 
 def Test():
-    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-20.xls'
+    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-19.xls'
     csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
     csvFolder = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData'
     analy = CAnalysisOneDay()
     #analy.CovertToCSVOnly(fileName)
     filters = GetFilters()
-    #analy.AnalysisOneOldDay(csvFile, zhangDiefu7)
-    analy.AnalysisOneFolder(csvFolder, filters)
-    #analy.AnalysisOneNewDay(fileName, (zhangDiefu7,))
+    #analy.AnalysisOneOldDay(csvFile, filters)
+    analy.AnalysisOneFolder(csvFolder, filters, ('石墨烯',))
+    #analy.AnalysisOneNewDay(fileName, filters, ('石墨烯',))
+
+def AnalysisNewOneDay():
+    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-19.xls'
+    analy = CAnalysisOneDay()
+    filters = GetFilters()
+    exceptBanKuais = ['石墨烯',]
+    analy.AnalysisOneNewDay(fileName, filters, exceptBanKuais)
     
+def PrintKeyIn():
+    csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
+    mgr = CStockMgr()
+    mgr.readFromCSV(csvFile)
+    while(1):
+        keyword = input('输入板块')
+        mgr.printStockWithKey(keyword)
+        
+def PrintOneKeyIn():
+    csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
+    mgr = CStockMgr()
+    mgr.readFromCSV(csvFile)
+    keys = []
+    mgr.printStockWithKey(keys)
     
+def PrintAllKeyIn():
+    csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
+    mgr = CStockMgr()
+    mgr.readFromCSV(csvFile)
+    keys = ()
+    mgr.printStockWithKey(keys)
 if __name__ == '__main__':
-    Test()
+    #Test()
+    PrintKeyIn()
+
 
     

@@ -12,7 +12,7 @@ class CStockItem(StockItemDefine.CStockItemTemplate):
     def __init__(self):
         StockItemDefine.CStockItemTemplate.__init__(self)
         self.banKuai = []
-        self.__banKuaiExcept = ['沪股通','深股通','融资融券','转融券标的']
+        self.__banKuaiExcept = ['沪股通','深股通','融资融券','转融券标的',u'证金持股']
         
     def initWithDict(self, dict_):
         StockItemDefine.CStockItemTemplate.initWithDict(self, dict_)

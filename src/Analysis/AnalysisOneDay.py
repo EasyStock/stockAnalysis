@@ -11,11 +11,11 @@ class CAnalysisOneDay(object):
         pass
     
     
-    def AnalysisOneNewDay(self,fileName, filters):
+    def AnalysisOneNewDay(self,fileName, filters, exceptBanKuai = ()):
         mgr = CStockMgr()
         mgr.stockPreprocess(fileName)
         for flt in filters:
-            mgr.AnalysisOneFileWithFilter(fileName, flt)
+            mgr.AnalysisOneFileWithFilter(fileName, flt, exceptBanKuai)
         
     
     def AnalysisOneOldDay(self, csvFile, filter_):
@@ -29,7 +29,7 @@ class CAnalysisOneDay(object):
         
     
     
-    def AnalysisOneFolder(self, csvFolder, filters):
+    def AnalysisOneFolder(self, csvFolder, filters,exceptBanKuai = ()):
         mgr = CStockMgr()
         filenames=os.listdir(csvFolder)
         for csvFile in filenames:
@@ -37,7 +37,7 @@ class CAnalysisOneDay(object):
                 continue
             fullPath = os.path.join(csvFolder, csvFile)
             for filter_ in filters:
-                mgr.ReadFromCSVAndFilter(fullPath,filter_)
+                mgr.ReadFromCSVAndFilter(fullPath,filter_,exceptBanKuai)
                 
     
 if __name__ == '__main__':

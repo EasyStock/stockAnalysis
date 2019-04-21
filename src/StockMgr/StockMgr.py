@@ -7,11 +7,9 @@ import pandas as pd
 from Stock import StockItemDefine
 from Stock import StockItem
 import os
-from builtins import staticmethod
 
 class CStockMgr(object): 
     #######################static method########################
-    #@staticmethod
     def GetOutDataFolder(self,fileName):
         path = fileName[:fileName.rfind('/')+1]
         outData = u'%s/../OutData' % (path)
@@ -19,7 +17,6 @@ class CStockMgr(object):
             os.mkdir(outData)
         return outData
     
-    #@staticmethod
     def GetAnalysisDataFolder(self,fileName):
         path = fileName[:fileName.rfind('/')+1]
         analysisData = u'%s/../AnalysisData' % (path)
@@ -27,7 +24,6 @@ class CStockMgr(object):
             os.mkdir(analysisData)
         return analysisData
     
-    #@staticmethod
     def GetAnalysisDataFolderWithFilterName(self,fileName,filterName):
         path = fileName[:fileName.rfind('/')+1]
         analysisData = u'%s/../AnalysisData/%s' % (path,filterName)
@@ -35,7 +31,6 @@ class CStockMgr(object):
             os.makedirs(analysisData)
         return analysisData
     
-    #@staticmethod
     def GetAnalysisBanKuaiFolderWithFilter(self,fileName,filterName):
         path = fileName[:fileName.rfind('/')+1]
         banKuaiFolder = u'%s/../AnalysisData/%s/板块分析/' % (path,filterName)
@@ -146,8 +141,6 @@ class CStockMgr(object):
         df.to_csv(fileName,encoding="utf_8_sig", index=False)
     
     
-
-    
     def __mergeFiles(self,folder_src,fName, filterName,folder_dest):
         datas = []
         filenames=os.listdir(folder_src)
@@ -162,6 +155,19 @@ class CStockMgr(object):
         fileName = '%s/merged_%s_%s.csv'%(folder_dest, fName,filterName)
         print(fileName)
         res.to_csv(fileName,encoding='utf_8_sig')
+        
+    def __getStocksWithExceptBanKuai(self,stocks, exceptBanKuai):
+        if exceptBanKuai == None or len(exceptBanKuai) == 0:
+            return stocks
+        
+        res = []
+        for stock in stocks:
+            if not stock.isOneKeyIn(exceptBanKuai) :
+                res.append(stock)
+            else:
+                print(stock.stockInfo[StockItemDefine.stock_ID],stock.stockInfo[StockItemDefine.stock_GaiNian])
+        return res
+                
 
     ########### public method #######################
     def readFromCSV(self, fileName):
@@ -186,7 +192,7 @@ class CStockMgr(object):
         self.__splictToItems(df)
         self.saveToCSV(outFileName, self.__stocks)
         
-    def printStockWithKey(self, **params):
+    def printStockWithKey(self, params):
         '''
         根据传入类型过滤数据
         '''
@@ -203,13 +209,20 @@ class CStockMgr(object):
                 if stock.isKeyIn(params):
                     print(stock)
     
-    def AnalysisOneFileWithFilter(self, fileName, filter_):
+    def AnalysisOneFileWithFilter(self, fileName, filter_, exceptBanKuai = ()):
         fName = fileName[fileName.rfind('/')+1: fileName.rfind('.')]
         if self.__stocks == None:
             self.stockPreprocess(fileName)
-            
+        
+        #Except Ban Kuai Data
+        stocksWithExcept = self.__getStocksWithExceptBanKuai(self.__stocks, exceptBanKuai)
+        
+        # get ban kuai statics
+        outFolder = self.GetAnalysisDataFolderWithFilterName(fileName, filter_.filterName)
+        self.__get_BanKuai_Result(stocksWithExcept, '板块统计',outFolder)
+        
         # get filter result
-        filterRes = [stock for stock in self.__stocks if filter_.filterBy(stock)]
+        filterRes = [stock for stock in stocksWithExcept if filter_.filterBy(stock)]
          
         # get ban kuai result
         outFolder = self.GetAnalysisDataFolderWithFilterName(fileName, filter_.filterName)
@@ -219,11 +232,19 @@ class CStockMgr(object):
         folder_src = self.GetAnalysisBanKuaiFolderWithFilter(fileName, filter_.filterName)
         self.__mergeFiles(folder_src, fName, filter_.filterName, outFolder)
     
-    def ReadFromCSVAndFilter(self, csvFile, filter_):
+    def ReadFromCSVAndFilter(self, csvFile, filter_, exceptBanKuai = ()):
         fName = csvFile[csvFile.rfind('/')+1: csvFile.rfind('.')]
         self.readFromCSV(csvFile)
+        
+        #Except Ban Kuai Data
+        stocksWithExcept = self.__getStocksWithExceptBanKuai(self.__stocks, exceptBanKuai)
+        
+        # get ban kuai statics
+        outFolder = self.GetAnalysisDataFolderWithFilterName(csvFile, filter_.filterName)
+        self.__get_BanKuai_Result(stocksWithExcept, '板块统计',outFolder)
+        
         # get filter result
-        filterRes = [stock for stock in self.__stocks if filter_.filterBy(stock)]
+        filterRes = [stock for stock in stocksWithExcept if filter_.filterBy(stock)]
          
         # get ban kuai result
         outFolder = self.GetAnalysisDataFolderWithFilterName(csvFile, filter_.filterName)
@@ -253,8 +274,14 @@ class CStockMgr(object):
         outFolder = self.GetAnalysisDataFolderWithFilterName(fileName, filteName)
         self.__mergeFiles(folder_src, fName, filteName, outFolder)
         
+    def GetStocksWithExceptBanKuai(self, fileName, exceptBanKuai):
+        self.readFromCSV(fileName)
+        self.__getStocksWithExceptBanKuai(self.__stocks, exceptBanKuai)
+        
 if __name__ == '__main__':
-    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-20.xls'
+    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
     mgr = CStockMgr()
-    mgr.stockPreprocess(fileName)
+    #mgr.stockPreprocess(fileName)
+    #mgr.readFromCSV(fileName)
+    mgr.GetStocksWithExceptBanKuai(fileName, ('车联网',))
     #mgr.readFromCSV(outFileName)
