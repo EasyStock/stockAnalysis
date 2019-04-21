@@ -12,6 +12,7 @@ class CStockItem(StockItemDefine.CStockItemTemplate):
     def __init__(self):
         StockItemDefine.CStockItemTemplate.__init__(self)
         self.banKuai = []
+        self.__banKuaiExcept = ['沪股通','深股通','融资融券','转融券标的']
         
     def initWithDict(self, dict_):
         StockItemDefine.CStockItemTemplate.initWithDict(self, dict_)
@@ -19,8 +20,9 @@ class CStockItem(StockItemDefine.CStockItemTemplate):
         self.banKuai = []
         if gaiNian:
             words = gaiNian.split(';')
-            if words and len(words) >0:
-                self.banKuai = words
+            for word in words:
+                if word not in self.__banKuaiExcept:
+                    self.banKuai.append(word)
     
     def isKeyIn(self, key):
         gaiNian = self.stockInfo[StockItemDefine.stock_GaiNian]
@@ -29,12 +31,25 @@ class CStockItem(StockItemDefine.CStockItemTemplate):
         else:
             return False
 
-    def isKeysIn(self, keys):
-        res = [False for key in keys if not self.isKeyIn(key)]
-        if not res:
-            return True
-        else:
-            return False
+    def isAllKeysIn(self, keys):
+        '''
+        only all keys in return True
+        '''
+        for key in keys:
+            if not self.isKeyIn(key):
+                return False
+            
+        return True
+    
+    def isOneKeyIn(self, keys):
+        '''
+        if one key in ,return true
+        '''
+        for key in keys:
+            if self.isKeyIn(key):
+                return True
+        
+        return False
         
     def getBanKuai(self):
         return self.banKuai

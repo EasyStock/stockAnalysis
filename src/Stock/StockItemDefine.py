@@ -34,7 +34,7 @@ stock_ShiZhi = u'a股流通市值'
 stock_HangYe = u'所属行业'
 stock_Days = u'上市天数'
 stock_XinTai = u'技术形态'
-stock_XinHao = u'买入信号'
+
     
 class CStockItemTemplate(object):
     def __init__(self):
@@ -66,9 +66,10 @@ class CStockItemTemplate(object):
         self.stockInfo[stock_ShiZhi] = None
         self.stockInfo[stock_HangYe] = None
         self.stockInfo[stock_GaiNian] = None
-        self.stockInfo[stock_XinHao] = None
-        self.stockInfo[stock_XinTai] = None
         self.stockInfo[stock_Days] = None
+        
+        self.stockInfo[stock_XinTai] = None
+        
     
     def initWithDict(self,dict_):
         for key in dict_:
@@ -92,7 +93,10 @@ class CStockItemTemplate(object):
     def isKeyIn(self, key):
         return False
      
-    def isKeysIn(self, keys):
+    def isAllKeysIn(self, keys):
+        return False
+    
+    def isOneKeyIn(self, keys):
         return False
      
     def FilterBy(self, stockFilter):
@@ -101,7 +105,7 @@ class CStockItemTemplate(object):
     
 if __name__ == '__main__':
     '''
-    开盘价,收盘价,最高价,最低价,成交量,涨跌幅,5日均线, 10日均线,20日均线,30日均线,60日均线,macd, boll(upper)值,boll(mid)值,boll(lower)值,K,D,J,a股流通市值,行业，概念,买入信号,技术形态,上市天数
+    开盘价,收盘价,最高价,最低价,成交量,涨跌幅,5日均线, 10日均线,20日均线,30日均线,60日均线,macd, boll(upper)值,boll(mid)值,boll(lower)值,K,D,J,a股流通市值,行业，概念,上市天数,技术形态
     '''
     
     t = CStockItemTemplate()
