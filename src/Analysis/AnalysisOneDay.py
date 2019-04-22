@@ -3,7 +3,7 @@ Created on Apr 20, 2019
 
 @author: mac
 '''
-from StockMgr.StockMgr import CStockMgrBanKuai
+from StockMgr.StockMgrBanKuai import CStockMgrBanKuai
 import os
 
 class CAnalysisOneDay(object):

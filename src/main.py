@@ -3,7 +3,7 @@ Created on Apr 17, 2019
 
 @author: mac
 '''
-from StockMgr.StockMgr import CStockMgrBanKuai
+from StockMgr.StockMgrBanKuai import CStockMgrBanKuai
 from StockFilter.StockFilter_ZhangFu import CStockFilterZhangFu
 from StockFilter.StockFilter_MA5 import CStockFilterMA5
 from StockFilter.StockFilter_BOLLUP import CStockFilterBOLLUP
