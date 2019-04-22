@@ -8,7 +8,7 @@ from Stock import StockItemDefine
 import os
 from StockMgr.StockMgrBase import CStockMgrBase
 
-class CStockMgr(CStockMgrBase): 
+class CStockMgrBanKuai(CStockMgrBase): 
     #######################static method########################
     def GetOutDataFolder(self,fileName):
         path = fileName[:fileName.rfind('/')+1]
@@ -170,7 +170,7 @@ class CStockMgr(CStockMgrBase):
         
 if __name__ == '__main__':
     fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
-    mgr = CStockMgr()
+    mgr = CStockMgrBanKuai()
     #mgr.stockPreprocess(fileName)
     #mgr.readFromCSV(fileName)
     mgr.GetStocksWithExceptBanKuai(fileName, ('车联网',))

@@ -3,7 +3,7 @@ Created on Apr 20, 2019
 
 @author: mac
 '''
-from StockMgr.StockMgr import CStockMgr
+from StockMgr.StockMgr import CStockMgrBanKuai
 import os
 
 class CAnalysisOneDay(object):
@@ -12,25 +12,25 @@ class CAnalysisOneDay(object):
     
     
     def AnalysisOneNewDay(self,fileName, filters, exceptBanKuai = ()):
-        mgr = CStockMgr()
+        mgr = CStockMgrBanKuai()
         mgr.stockPreprocess(fileName)
         for flt in filters:
             mgr.AnalysisOneFileWithFilter(fileName, flt, exceptBanKuai)
         
     
     def AnalysisOneOldDay(self, csvFile, filter_):
-        mgr = CStockMgr()
+        mgr = CStockMgrBanKuai()
         mgr.ReadFromCSVAndFilter(csvFile, filter_)
         
     
     def CovertToCSVOnly(self, fileName):
-        mgr = CStockMgr()
+        mgr = CStockMgrBanKuai()
         mgr.stockPreprocess(fileName)
         
     
     
     def AnalysisOneFolder(self, csvFolder, filters,exceptBanKuai = ()):
-        mgr = CStockMgr()
+        mgr = CStockMgrBanKuai()
         filenames=os.listdir(csvFolder)
         for csvFile in filenames:
             if csvFile.find('.csv') == -1:

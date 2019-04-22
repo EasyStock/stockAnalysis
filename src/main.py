@@ -3,7 +3,7 @@ Created on Apr 17, 2019
 
 @author: mac
 '''
-from StockMgr.StockMgr import CStockMgr
+from StockMgr.StockMgr import CStockMgrBanKuai
 from StockFilter.StockFilter_ZhangFu import CStockFilterZhangFu
 from StockFilter.StockFilter_MA5 import CStockFilterMA5
 from StockFilter.StockFilter_BOLLUP import CStockFilterBOLLUP
@@ -24,7 +24,7 @@ def GetFilters():
     return filters
 
 def AnalysisOneDay(fileName):
-    mgr = CStockMgr()
+    mgr = CStockMgrBanKuai()
     
     filters = GetFilters()
     for filter_ in filters:
@@ -40,7 +40,7 @@ def AnalysisOneDay(fileName):
         times = times -1
         
 def ReadAndSaveToFile(fileName):
-    mgr = CStockMgr()
+    mgr = CStockMgrBanKuai()
     mgr.stockPreprocess(fileName)
     
 
@@ -64,7 +64,7 @@ def AnalysisNewOneDay():
     
 def PrintKeyIn():
     csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
-    mgr = CStockMgr()
+    mgr = CStockMgrBanKuai()
     mgr.readFromCSV(csvFile)
     while(1):
         keyword = input('输入板块')
@@ -72,14 +72,14 @@ def PrintKeyIn():
         
 def PrintOneKeyIn():
     csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
-    mgr = CStockMgr()
+    mgr = CStockMgrBanKuai()
     mgr.readFromCSV(csvFile)
     keys = []
     mgr.printStockWithKey(keys)
     
 def PrintAllKeyIn():
     csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-19.csv'
-    mgr = CStockMgr()
+    mgr = CStockMgrBanKuai()
     mgr.readFromCSV(csvFile)
     keys = ()
     mgr.printStockWithKey(keys)
