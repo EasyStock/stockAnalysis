@@ -8,6 +8,8 @@ from StockFilter.StockFilter_ZhangFu import CStockFilterZhangFu
 from StockFilter.StockFilter_MA5 import CStockFilterMA5
 from StockFilter.StockFilter_BOLLUP import CStockFilterBOLLUP
 from Analysis.AnalysisOneDay import CAnalysisOneDay
+from StockFilter.StockFilter_BOLL_DOWN1 import CStockFilterBOLL_DOWN1
+from StockFilter.StockFilter_BOLL_DOWN2 import CStockFilterBOLL_DOWN2
 
 
 def GetFilters():
@@ -15,7 +17,10 @@ def GetFilters():
     zhangDiefu7 = CStockFilterZhangFu(7)
     MA5Filter = CStockFilterMA5(None)
     BOLLUpFilter = CStockFilterBOLLUP(None)
-    filters = [zhangDiefu3,zhangDiefu7,MA5Filter,BOLLUpFilter]
+    BOLLDown1 = CStockFilterBOLL_DOWN1(None)
+    BOLLDown2 = CStockFilterBOLL_DOWN2(None)
+    #filters = [zhangDiefu3,zhangDiefu7,MA5Filter,BOLLUpFilter,BOLLDown1,BOLLDown2]
+    filters = [BOLLDown1,BOLLDown2]
     return filters
 
 def AnalysisOneDay(fileName):
@@ -51,10 +56,10 @@ def Test():
     #analy.AnalysisOneNewDay(fileName, filters, ('石墨烯',))
 
 def AnalysisNewOneDay():
-    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-19.xls'
+    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-22.xls'
     analy = CAnalysisOneDay()
     filters = GetFilters()
-    exceptBanKuais = ['石墨烯',]
+    exceptBanKuais = []
     analy.AnalysisOneNewDay(fileName, filters, exceptBanKuais)
     
 def PrintKeyIn():
@@ -78,9 +83,18 @@ def PrintAllKeyIn():
     mgr.readFromCSV(csvFile)
     keys = ()
     mgr.printStockWithKey(keys)
+    
+
+def AnalysisOneFolder():
+    csvFolder = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData'
+    analy = CAnalysisOneDay()
+    filters = GetFilters()
+    exceptBanKuais = []
+    analy.AnalysisOneFolder(csvFolder, filters, exceptBanKuais)
+
 if __name__ == '__main__':
     #Test()
-    PrintKeyIn()
+    AnalysisOneFolder()
 
 
     
