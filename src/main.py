@@ -10,6 +10,7 @@ from StockFilter.StockFilter_BOLLUP import CStockFilterBOLLUP
 from Analysis.AnalysisOneDay import CAnalysisOneDay
 from StockFilter.StockFilter_BOLL_DOWN1 import CStockFilterBOLL_DOWN1
 from StockFilter.StockFilter_BOLL_DOWN2 import CStockFilterBOLL_DOWN2
+from StockMgr.StockMgr import CStockMgr
 
 
 def GetFilters():
@@ -19,8 +20,8 @@ def GetFilters():
     BOLLUpFilter = CStockFilterBOLLUP(None)
     BOLLDown1 = CStockFilterBOLL_DOWN1(None)
     BOLLDown2 = CStockFilterBOLL_DOWN2(None)
-    #filters = [zhangDiefu3,zhangDiefu7,MA5Filter,BOLLUpFilter,BOLLDown1,BOLLDown2]
-    filters = [BOLLDown1,BOLLDown2]
+    filters = [zhangDiefu3,zhangDiefu7,MA5Filter,BOLLUpFilter,BOLLDown1,BOLLDown2]
+    #filters = [BOLLDown1,BOLLDown2]
     return filters
 
 def AnalysisOneDay(fileName):
@@ -85,16 +86,33 @@ def PrintAllKeyIn():
     mgr.printStockWithKey(keys)
     
 
-def AnalysisOneFolder():
+def AnalysisBanKuaiOneFolder():
     csvFolder = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData'
     analy = CAnalysisOneDay()
     filters = GetFilters()
     exceptBanKuais = []
     analy.AnalysisOneFolder(csvFolder, filters, exceptBanKuais)
 
+
+
+def AnalysisOneFile():
+    csvFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/OutData/2019-04-22.csv'
+    outFile = u'/Volumes/Data/StockAssistant/stockAnalysis/data/2019-04-22.csv'
+    mgr = CStockMgr()
+    BOLLDown1 = CStockFilterBOLL_DOWN1(None)
+    mgr.AnalysisOneFile(csvFile, BOLLDown1, outFile)
+    
+
+
+def ConverOneFile():
+    fileName = u'/Volumes/Data/StockAssistant/stockAnalysis/data/RawData/2019-04-24.xls'
+    mgr = CStockMgr()
+    mgr.stockPreprocess(fileName)
+    
 if __name__ == '__main__':
     #Test()
-    AnalysisOneFolder()
+    AnalysisBanKuaiOneFolder()
+    #ConverOneFile()
 
 
     

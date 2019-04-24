@@ -7,10 +7,39 @@ Created on Apr 22, 2019
 import pandas as pd
 from Stock import StockItemDefine
 from Stock import StockItem
+import os
 
 
 class CStockMgrBase(object):
+    #######################static method########################
+    def GetOutDataFolder(self,fileName):
+        path = fileName[:fileName.rfind('/')+1]
+        outData = u'%s/../OutData' % (path)
+        if not os.path.exists(outData):
+            os.mkdir(outData)
+        return outData
     
+    def GetAnalysisDataFolder(self,fileName):
+        path = fileName[:fileName.rfind('/')+1]
+        analysisData = u'%s/../AnalysisData' % (path)
+        if not os.path.exists(analysisData):
+            os.mkdir(analysisData)
+        return analysisData
+    
+    def GetAnalysisDataFolderWithFilterName(self,fileName,filterName):
+        path = fileName[:fileName.rfind('/')+1]
+        analysisData = u'%s/../AnalysisData/%s' % (path,filterName)
+        if not os.path.exists(analysisData):
+            os.makedirs(analysisData)
+        return analysisData
+    
+    def GetAnalysisBanKuaiFolderWithFilter(self,fileName,filterName):
+        path = fileName[:fileName.rfind('/')+1]
+        banKuaiFolder = u'%s/../AnalysisData/%s/板块分析/' % (path,filterName)
+        if not os.path.exists(banKuaiFolder):
+            os.makedirs(banKuaiFolder)
+        return banKuaiFolder
+
     def __init__(self):
         self.stocks = None
     
@@ -29,7 +58,7 @@ class CStockMgrBase(object):
         for _, row in df.iterrows():
             stock = self.__formatToStockItem(row)
             stocks.append(stock)
-        self.__stocks = stocks
+        self.stocks = stocks
         return stocks
 
     def __formatResultToDataFrame(self, stocks):
@@ -94,15 +123,15 @@ class CStockMgrBase(object):
         根据传入类型过滤数据
         '''
         if isinstance(params, tuple):
-            for stock in self.__stocks:
+            for stock in self.stocks:
                 if stock.isAllKeysIn(params):
                     print(stock)
         elif isinstance(params, list):
-            for stock in self.__stocks:
+            for stock in self.stocks:
                 if stock.isOneKeyIn(params):
                     print(stock)
         else:
-            for stock in self.__stocks:
+            for stock in self.stocks:
                 if stock.isKeyIn(params):
                     print(stock)
 

@@ -19,8 +19,9 @@ class CStockFilterBOLL_DOWN1(IStockFilter):
         try:
             price = float(info[StockItemDefine.stock_ClosePrice])
             BOLLDOWN = float(info[StockItemDefine.stock_BOLLDown])
+            BOLLMID = float(info[StockItemDefine.stock_BOLLMid])
             lowest = float(info[StockItemDefine.stock_LowerPrice])
-            if price > BOLLDOWN and lowest <= BOLLDOWN:
+            if price > BOLLMID and lowest <= BOLLDOWN:
                 return True
             else:
                 return False

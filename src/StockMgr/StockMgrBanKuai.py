@@ -8,36 +8,7 @@ from Stock import StockItemDefine
 import os
 from StockMgr.StockMgrBase import CStockMgrBase
 
-class CStockMgrBanKuai(CStockMgrBase): 
-    #######################static method########################
-    def GetOutDataFolder(self,fileName):
-        path = fileName[:fileName.rfind('/')+1]
-        outData = u'%s/../OutData' % (path)
-        if not os.path.exists(outData):
-            os.mkdir(outData)
-        return outData
-    
-    def GetAnalysisDataFolder(self,fileName):
-        path = fileName[:fileName.rfind('/')+1]
-        analysisData = u'%s/../AnalysisData' % (path)
-        if not os.path.exists(analysisData):
-            os.mkdir(analysisData)
-        return analysisData
-    
-    def GetAnalysisDataFolderWithFilterName(self,fileName,filterName):
-        path = fileName[:fileName.rfind('/')+1]
-        analysisData = u'%s/../AnalysisData/%s' % (path,filterName)
-        if not os.path.exists(analysisData):
-            os.makedirs(analysisData)
-        return analysisData
-    
-    def GetAnalysisBanKuaiFolderWithFilter(self,fileName,filterName):
-        path = fileName[:fileName.rfind('/')+1]
-        banKuaiFolder = u'%s/../AnalysisData/%s/板块分析/' % (path,filterName)
-        if not os.path.exists(banKuaiFolder):
-            os.makedirs(banKuaiFolder)
-        return banKuaiFolder
-    
+class CStockMgrBanKuai(CStockMgrBase):     
     #######################private method ##########################
     def __init__(self):
         CStockMgrBase.__init__(self)
